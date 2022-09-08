@@ -74,6 +74,8 @@
       const visualSlide = (swiper) => {
         // ref라서 value로 저장
         slide.value = swiper;
+        // 1번부터 실행
+        slide.value.slideTo(1);
       }
       // 아이콘을 변경하기 위해 문자열을 저장
       const slideState = ref('pause');

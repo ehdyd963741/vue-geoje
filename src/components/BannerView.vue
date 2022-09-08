@@ -12,7 +12,6 @@
 
           <button class="sw-banner-pause">
             <span class="material-icons" @click="controlSlide">
-              <!-- 구글 아이콘인 경우에만 해당합니다. -->
               {{slideState}}
             </span>
           </button>
@@ -24,7 +23,6 @@
       </div>
 
       <div class="banner-right">
-        <!-- Swiper -->
         <Swiper 
         :modules="modules" 
         :slides-per-view="3" 
@@ -55,15 +53,18 @@
         @swiper="swBanner"
         class="sw-banner"
         >
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-0"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-1"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-2"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-3"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-4"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-5"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-6"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-7"></a></SwiperSlide>
-          <SwiperSlide class="swiper-slide"><a href="#" class="banner-8"></a></SwiperSlide>
+          <SwiperSlide class="swiper-slide" v-for="(item, index) in bannerData" :key="index">
+            <a 
+            :href="item.link"
+            :style="{
+              backgroundImage:`url(${item.imgurl})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }"
+            class="banner-0"
+            >
+            </a>
+          </SwiperSlide>
         </Swiper>
 
       </div>
@@ -72,10 +73,11 @@
 </template>
 
 <script>
-  import {ref} from 'vue';
-  import {Swiper,SwiperSlide} from 'swiper/vue'
-  import 'swiper/css'
-  import {Autoplay, Navigation} from 'swiper'
+  import {ref, computed} from 'vue';
+  import {useStore} from 'vuex';
+  import {Swiper,SwiperSlide} from 'swiper/vue';
+  import {Autoplay, Navigation} from 'swiper';
+  import 'swiper/css';
   import 'swiper/css/navigation';
   export default {
     components: {
@@ -92,7 +94,7 @@
       // Swiper의 start, stop 을 제어한다.
       const slideState = ref('pause');
       const controlSlide = () => {
-
+      
         // 만약에 슬라이더의 running == true
         if(slide.value.autoplay.running ){
           slide.value.autoplay.stop();
@@ -104,15 +106,15 @@
           // 구글 아이콘을 변경해 주기
           slideState.value = 'pause';
         }
-        
-
       }
-
+      const store = useStore();
+      const bannerData = computed(() => store.getters.bannerData);
       return {
         modules: [Autoplay, Navigation],
         swBanner,
         controlSlide,
-        slideState
+        slideState,
+        bannerData
       }
     }
   }

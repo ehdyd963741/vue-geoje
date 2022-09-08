@@ -8,25 +8,18 @@
         </div>
         <div class="community-main">
           <ul class="community-list data-info">
-            <li>
-              <a href="#">&#60;6월 문화특강 [모스큐브&멘톨비누 만들기]&#62;</a>
-              <span>2022.06.17</span>
+            
+            <li v-for="(item, index) in infoData" :key="index">
+              <a :href="item.link" v-html="item.title"></a>
+              <span>{{item.date}}</span>
             </li>
-            <li>
-              <a href="#">&#60;6월 인문학특강 [4차 산업혁명과 청년]&#62;</a>
-              <span>2022.06.30</span>
-            </li>
-            <li>
-              <a href="#">내꿈공간(내 일을 꿈꾸는 청년창업공간) 대관 안내&#62;</a>
-              <span>2022.08.20</span>
-            </li>
-            <li>
-              <a href="#">&#60;6월 취창업 프로그램 , NCS 특강 안내 ♡&#62;</a>
-              <span>2022.08.17</span>
-            </li>
+
+
+            
           </ul>
         </div>
       </div>
+
       <div class="community-box">
         <div class="community-top bg-line">
           <h3>청년정책 새소식</h3>
@@ -34,24 +27,15 @@
         </div>
         <div class="community-main">
           <ul class="community-list data-news">
-            <li>
-              <a href="#">「2022년 청년, 거제에서 한 달 살아보기」 참여 청년 모집!!</a>
-              <span>2022.06.15</span>
+            
+            <li v-for="(item, index) in newsData" :key="index">
+              <a :href="item.link" v-html="item.title"></a>
+              <span>{{item.date}}</span>
             </li>
-            <li>
-              <a href="#">2022년 거제시 청년 월세 지원사업 선정 결과</a>
-              <span>2022.06.08</span>
-            </li>
-            <li>
-              <a href="#">청춘다락: 7월 프로그램 참여 청년 모집</a>
-              <span>2022.06.08</span>
-            </li>
-            <li>
-              <a href="#">제2기 거제시 청년정책네트워크 위원 모집 연장 안내</a>
-              <span>2022.05.30</span>
-            </li>
+
           </ul>
         </div>
+        
       </div>
       <div class="community-box calendar">
         <div class="community-top">
@@ -67,8 +51,18 @@
 </template>
 
 <script>
+  import {computed} from 'vue';
+  import {useStore} from 'vuex';
   export default {
-
+    setup (){
+      const store = useStore();
+      const infoData = computed(() => store.getters.infoData);
+      const newsData = computed(() => store.getters.newsData);
+      return{
+        infoData,
+        newsData
+      }
+    }
   }
 </script>
 
